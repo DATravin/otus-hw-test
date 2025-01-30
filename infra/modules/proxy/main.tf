@@ -69,5 +69,4 @@ resource "yandex_compute_instance" "proxy" {
       "sudo cat /var/log/cloud-init-output.log | sudo tee -a /var/log/user_data_execution.log",
     ]
   }
-  depends_on = [yandex_dataproc_cluster.dataproc_cluster]
 }
