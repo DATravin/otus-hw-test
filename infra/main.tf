@@ -122,10 +122,6 @@ module "proxy" {
   secret_key         = module.iam.secret_key
   yc_data_bucket     = module.storage.bucket
 
-  depends_on = [
-    module.hadoop,
-  ]
-
 }
 
 
