@@ -28,7 +28,7 @@ resource "yandex_compute_instance" "proxy" {
       secret_key                  = var.secret_key # есть
       s3_bucket                   = var.yc_data_bucket # есть
       upload_data_to_hdfs_content = file("${path.root}/modules/proxy/scripts/upload_data_to_hdfs.sh")
-      upload_data_from_hdfs_content = file("${path.root}/scripts/upload_data_from_hdfs.sh")
+      upload_data_from_hdfs_content = file("${path.root}/modules/proxy/scripts/upload_data_from_hdfs.sh")
     })
   }
 
