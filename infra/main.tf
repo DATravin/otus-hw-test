@@ -93,6 +93,38 @@ module "mlflow" {
   s3_bucket_name             = module.storage.bucket
 }
 
+module "hadoop" {
+  source                     = "./modules/hadoop"
+  yc_dataproc_cluster_name   = var.yc_dataproc_cluster_name
+  service_acc_id             = module.iam.service_account_id
+  vpc_subnet_id              = module.network.subnet_id
+  yc_zone                    = var.yc_config.zone
+  public_key_path            = var.public_key_path
+  security_group_id          = module.network.security_group_id
+  provider_config            = var.yc_config
+  yc_dataproc_version        = var.yc_dataproc_version
+  yc_data_bucket             = module.storage.bucket
+}
+
+
+module "proxy" {
+  source             = "./modules/proxy"
+  instance_user      = var.yc_instance_user
+  instance_name      = var.yc_proxy_instance_name # из терраформ
+  service_account_id = module.iam.service_account_id
+  vpc_subnet_id      = module.network.subnet_id
+  ubuntu_image_id    = var.ubuntu_proxy_image_id # из терраформ
+  public_key_path    = var.public_key_path
+  private_key_path   = var.private_key_path
+  provider_config    = var.yc_config
+  yc_zone            = var.yc_config.zone
+  access_key         = module.iam.access_key
+  secret_key         = module.iam.secret_key
+  yc_data_bucket     = module.storage.bucket
+
+}
+
+
 resource "local_file" "variables_file" {
   content = jsonencode({
     # общие переменные
@@ -127,6 +159,7 @@ resource "local_file" "variables_file" {
     MLFLOW_HOST               = module.mlflow.external_ip_address
     # AIRFLOW
     AIRFLOW_HOST              = module.compute.external_ip_address
+    PROXY_HOST                = module.proxy.proxy_public_ip
 
   })
   filename        = "./variables.json"

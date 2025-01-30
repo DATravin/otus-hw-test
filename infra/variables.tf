@@ -112,3 +112,23 @@ variable "postgresql_user_name" {
 variable "postgresql_user_password" {
   type = string
 }
+
+variable "yc_dataproc_cluster_name" {
+  type        = string
+  description = "Name of the Dataproc cluster"
+}
+
+variable "yc_dataproc_version" {
+  type        = string
+  description = "Version of Dataproc"
+}
+
+variable "yc_proxy_instance_name" {
+  type        = string
+  description = "Name of Proxy VM"
+}
+
+variable "ubuntu_proxy_image_id" {
+  type        = string
+  description = "id image for proxy"
+}
