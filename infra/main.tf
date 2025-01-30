@@ -122,6 +122,10 @@ module "proxy" {
   secret_key         = module.iam.secret_key
   yc_data_bucket     = module.storage.bucket
 
+  depends_on = [
+    module.hadoop,
+  ]
+
 }
 
 
@@ -226,6 +230,7 @@ resource "null_resource" "update_env" {
       MLFLOW_HOST=${module.mlflow.external_ip_address}
       MLFLOW_ADMIN_PASSWORD=${module.mlflow.instance_id}
       DB_PG_HOST=${module.database_pg.db_host_fqdn}
+      PROXY_HOST=${module.proxy.proxy_public_ip}
 
 
       # Замена пустых переменных в .env
@@ -238,6 +243,7 @@ resource "null_resource" "update_env" {
       sed -i "s|^MLFLOW_HOST=.*|MLFLOW_HOST=$MLFLOW_HOST|" ../.env
       sed -i "s|^MLFLOW_ADMIN_PASSWORD=.*|MLFLOW_ADMIN_PASSWORD=$MLFLOW_ADMIN_PASSWORD|" ../.env
       sed -i "s|^DB_PG_HOST=.*|DB_PG_HOST=$DB_PG_HOST|" ../.env
+      sed -i "s|^PROXY_HOST=.*|PROXY_HOST=$PROXY_HOST|" ../.env
     EOT
   }
 
