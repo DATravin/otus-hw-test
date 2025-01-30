@@ -19,7 +19,7 @@ resource "yandex_compute_instance" "proxy" {
 
   metadata = {
     ssh-keys = "ubuntu:${file(var.public_key_path)}" # есть
-    user-data = templatefile("${path.root}/scripts/user_data.sh", {
+    user-data = templatefile("${path.root}/modules/proxy/scripts/user_data.sh", {
       token                       = var.provider_config.token # есть
       cloud_id                    = var.provider_config.cloud_id # есть
       folder_id                   = var.provider_config.folder_id # есть
@@ -27,7 +27,7 @@ resource "yandex_compute_instance" "proxy" {
       access_key                  = var.access_key # есть
       secret_key                  = var.secret_key # есть
       s3_bucket                   = var.yc_data_bucket # есть
-      upload_data_to_hdfs_content = file("${path.root}/scripts/upload_data_to_hdfs.sh")
+      upload_data_to_hdfs_content = file("${path.root}/modules/proxy/scripts/upload_data_to_hdfs.sh")
       upload_data_from_hdfs_content = file("${path.root}/scripts/upload_data_from_hdfs.sh")
     })
   }
