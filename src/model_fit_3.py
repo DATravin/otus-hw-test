@@ -323,7 +323,7 @@ def main():
             cur_version = model_versions[0].version
             client.transition_model_version_stage(name=model_name, version=cur_version, stage="Production")
         else:
-            cur_version = client.get_latest_versions(model_name, stages=["None"])
+            cur_version = client.get_latest_versions(model_name, stages=["None"])[0].version
             client.transition_model_version_stage(name=model_name, version=cur_version, stage="Staging")
 
 
