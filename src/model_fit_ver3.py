@@ -23,7 +23,7 @@ from mlflow.tracking import MlflowClient
 import pandas as pd
 import mlflow.spark
 from mlflow.store.artifact.runs_artifact_repo import RunsArtifactRepository
-#import numpy as np
+import numpy as np
 
 numericColumnsFinal =['term_amount_min',
          'term_amount_50perc',
@@ -294,13 +294,13 @@ def main():
     )
 
 
-    # model_best = trials.results[np.argmin([r['loss'] for r in trials.results])]['model']
-    # best_result = trials.results[np.argmin([r['loss'] for r in trials.results])]['loss']
+    model_best = trials.results[np.argmin([r['loss'] for r in trials.results])]['model']
+    best_result = trials.results[np.argmin([r['loss'] for r in trials.results])]['loss']
+    best_params = trials.results[np.argmin([r['loss'] for r in trials.results])]['params']
 
-    model_best = trials.results[0]['model']
-    best_result = trials.results[0]['loss']
-    best_params = trials.results[0]['params']
-
+    # model_best = trials.results[0]['model']
+    # best_result = trials.results[0]['loss']
+    # best_params = trials.results[0]['params']
 
     model_name = 'classification'
 
