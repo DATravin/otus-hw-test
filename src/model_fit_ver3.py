@@ -306,14 +306,24 @@ def main():
 
     #experiment_id = get_experiment_id(model_name)
 
+    best_params['MLFLOW_S3_ENDPOINT_URL'] = os.environ['MLFLOW_S3_ENDPOINT_URL']
+    best_params['MLFLOW_TRACKING_URI'] = os.environ['MLFLOW_TRACKING_URI']
+    best_params['AWS_ACCESS_KEY_ID'] = os.environ["AWS_ACCESS_KEY_ID"]
+    best_params['AWS_SECRET_ACCESS_KEY'] = os.environ["AWS_SECRET_ACCESS_KEY"]
+    best_params['S3_ENDPOINT_URL'] = os.environ["S3_ENDPOINT_URL"]
+    best_params['S3_BUCKET_NAME'] = os.environ["S3_BUCKET_NAME"]
+
     with mlflow.start_run() as run:
+
+        mlflow.log_params(best_params)
+        mlflow.log_metric('auc', -best_result)
 
         mlflow.spark.log_model(model_best, artifact_path="models", registered_model_name=model_name)
 
         # run_id = run.info.run_id
 
-        mlflow.log_params(best_params)
-        mlflow.log_metric('auc', -best_result)
+
+
 
         client = MlflowClient()
         model_versions = client.search_model_versions(filter_string=f"name = '{model_name}'")
