@@ -195,7 +195,7 @@ def main():
 #     train_dates = time_keys[20:23]
     verif_dates = time_keys[25]
 
-    logger.info(f"test period {test_dates}")
+    logger.info(f"test period {verif_dates}")
 
 #     train_sdf = datamart(train_dates,row_sdf,agg_cust_sdf,agg_term_sdf,list_for_fillna,sample_val = 0.5)
     test_sdf = datamart(verif_dates,row_sdf,agg_cust_sdf,agg_term_sdf,list_for_fillna,sample_val = 0.1)
@@ -208,6 +208,7 @@ def main():
     fmt= "parquet"
 
     (test_sdf
+     .repartition(1)
      .write
      .format(fmt)
      .mode(mode)
@@ -257,7 +258,7 @@ def main():
     vec1=[]
     vec2=[]
 
-    for i in range(0,100):
+    for i in range(0,50):
 
 
         test_date_new = verif_sdf.sample(0.33)
