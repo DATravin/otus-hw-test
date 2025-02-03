@@ -270,6 +270,11 @@ def main():
         vec1.append(auc1)
         vec2.append(auc2)
 
+        # with mlflow.start_run() as run:
+
+        #     mlflow.log_metric('auc_cur', auc1)
+        #     mlflow.log_metric('auc_new', auc2)
+
 
     logger.info(f"experement has been done")
 
